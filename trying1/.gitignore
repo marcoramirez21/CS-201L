@@ -1,6 +1,0 @@
-# Ignore Visual Studio cache and build output
-.vs/
-Debug/
-Release/
-*.user
-*.suo

@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\marcc\\source\\repos\\cpp_Coursework_2025_Summer\\lab01\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0C7FF723-04BB-446D-AFDB-C7D3A742F1E3}|lab01.vcxproj|C:\\Users\\marcc\\source\\repos\\cpp_Coursework_2025_Summer\\lab01\\largestValue.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{0C7FF723-04BB-446D-AFDB-C7D3A742F1E3}|lab01.vcxproj|solutionrelative:largestValue.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +14,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "largestValue.cpp",
+              "DocumentMoniker": "C:\\Users\\marcc\\source\\repos\\cpp_Coursework_2025_Summer\\lab01\\largestValue.cpp",
+              "RelativeDocumentMoniker": "largestValue.cpp",
+              "ToolTip": "C:\\Users\\marcc\\source\\repos\\cpp_Coursework_2025_Summer\\lab01\\largestValue.cpp",
+              "RelativeToolTip": "largestValue.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-11T16:31:16.049Z",
+              "EditorCaption": ""
             }
           ]
         }
