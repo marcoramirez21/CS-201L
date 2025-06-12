@@ -13,7 +13,7 @@ int main() {
 	
 		//while loop continues as long as user enter 'Y' or 'y'
 	while (again == 'Y') {
-		cout << "Enter four integers: "; //prompt user
+		cout << "Enter four integers: "; //prompt user to enter four integers
 		cin >> a >> b >> c >> d; // input four integers from user
 
 		// Copy original values to sort without affecting the original input
