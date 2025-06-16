@@ -15,13 +15,13 @@ static int randomCoordinate() {
 	return rand() % 21 - 10; // rand() % 21 gives 0-20, substract 10 to get -10 to 10.
 }
 
-//Function to calculte the sistance of a point from the origen
+//Function to calculte the distance of a point from the origen
 static double distanceToOrigen(int x, int y) {
 	return sqrt(x * x + y * y);// Pythagorean theorem to find the distance
 }
 
 // Function to get validated user input between -10 to 10 
-static int getValidatedInput(const string& prompt) {
+static int getValidatedInput(const string& prompt) { //---------------- static &
 	int value;
 	while (true) { // Repeats until valid input is entered. 
 		cout << prompt; // Displays the input prombp
@@ -42,17 +42,17 @@ static int getValidatedInput(const string& prompt) {
 int main() //Controlos the program flow, handles user input, calculates distances and reapeats based on user choice.
 {
 	srand(static_cast <unsigned int> (time(0))); // Seeds random number generator with current time.
-	/* static_cast <unsigned int> converts the result to an unsigned int, which is requiared by srand(0).
+	/* static_cast <unsigned int> converts the result to an unsigned int, which is requiared by srand().
 	Seeding refers to initializing the random number generator with unique value from time(0) (current system time), 
-	ensuring that srand() generates a different sequence of numbersr each time the program runs, preventing predictability*/
+	ensuring that srand() generates a different sequence of numbers each time the program runs, preventing predictability*/
 	
 	char again; // Holds user's choice to repeat the program.
 
 	do {// The loop runs at least once, then repeats if 'again' is 'Y' or 'y', otherwise it exits the loop. 
 		int x1,y1,x2,y2; // Coordinates of two points.
-		char choice; // Usr choice for input mode.
+		char choice; // User choice for input mode.
 
-		cout << "Do you want to Enter values Generate randomly? "; // Prompt to choose input method.
+		cout << "Type 'E' to Enter the values manualy, or Type any other letter to 'Generate randomly': "; // Prompt to choose input method. -----------
 		cin >> choice; // Read choice.
 
 		if (choice == 'E' || choice == 'e') {// The statement is checking if the variable "choice" is either uppecase or lowercase. 
@@ -87,7 +87,7 @@ int main() //Controlos the program flow, handles user input, calculates distance
 		else // If both points are equally distant grom the origin.
 			cout << "Both points are equally close to the origen.\n";
 
-		cout << "Do you want to rung again? (Y/N): "; // Ask user to repeat.
+		cout << "Type 'Y' to RUN again. Type any other letter to END the program: "; // Ask user to repeat.
 		cin >> again; // Read the user's choice.
 	}
 	while (again == 'Y' || again == 'y'); // Continue if 'Y' or 'y' entered.
