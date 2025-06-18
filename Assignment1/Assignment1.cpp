@@ -1,4 +1,4 @@
-// Marco Ramirez 16370924
+// Marco Ramirez 
 // Program 1 - Chocolate Factory
 
 #include "Header.h"
