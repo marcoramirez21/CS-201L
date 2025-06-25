@@ -45,13 +45,13 @@ static void printReceipt(int l, int m, int s, int total_Lbs, int orderNumber) {
     // Print a organized and formated receipt
     cout << fixed << setprecision(2) << setw(10);
     cout << "\nChocolate Order #" << orderNumber << endl;
-    cout << "Large Bars:  " << setw(4) << l << setw(9) << l * SIZE_L << setw(12) << total_L << endl;
-    cout << "Medium Bars: " << setw(4) << m << setw(9) << m * SIZE_M << setw(12) << total_M << endl;
-    cout << "Small Bars:  " << setw(4) << s << setw(9) << s * SIZE_S << setw(12) << total_S << endl;
-    cout << "Sub Total:   " << setw(13) << total_Lbs << setw(12) << subtotal << endl;
-    cout << "\nTax Total: " << setw(27) << tax << endl;
-    cout << "Shipping:     " << setw(25) << ship << endl;
-    cout << "Total Cost:  " << setw(25) << total << endl << endl;
+    cout << "Large Bars:  " << setw(4) << l << setw(8) << l * SIZE_L << setw(8) << "$" << setw(10) << total_L << endl;
+    cout << "Medium Bars: " << setw(4) << m << setw(8) << m * SIZE_M << setw(8) << "$" << setw(10) << total_M <<endl;
+    cout << "Small Bars:  " << setw(4) << s << setw(8) << s * SIZE_S << setw(8) << "$" << setw(10) << total_S << endl;
+    cout << "Sub Total:   " << setw(12) << total_Lbs << setw(8) << "$" << setw(10) << subtotal << endl;
+    cout << "\nTax Total:   " << setw(37) << "$" << setw(10) << tax << endl;
+    cout << "Shipping:    " << setw(37) << "$" << setw(10) << ship << endl;
+    cout << "Total Cost:  " << setw(37) << "$" << setw(10) << total << endl << endl;
     }
 // Function to process an order request. Fulfills a customer request based on available inventory. 
 // Fulfills orders using large bars first, then smaller ones. Updates inventory only if the full order can be met. 
