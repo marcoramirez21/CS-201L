@@ -1,329 +1,277 @@
-//  Dice, Hangman, and Blackjack
-
-
-#include <iostream> 
-#include <string>   
-#include <vector>   
-#include <cstdlib>  
-#include <ctime>    
+#include "Games.h"
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
 #include <algorithm>
-#include <numeric>  /
+#include <random>
+#include <unordered_set>
+#include <chrono>
+#include <iomanip>
+#include <limits>
+#include <cctype>
+
 using namespace std;
 
-// --- Dice Rolling Game Functions ---
+// --- Global RNG ---
+static mt19937 rng(static_cast<unsigned>(
+    chrono::system_clock::now().time_since_epoch().count()));
 
+// === Helper Functions ===
 
-int rollDice() {
-    return (rand() % 6) + 1;
+// Changed string_view to const string& for compatibility
+char getValidatedChar(const string& prompt, const string& valid) {
+    char ch;
+    while (true) {
+        cout << prompt;
+        cin >> ch;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        ch = toupper(static_cast<unsigned char>(ch));
+        if (valid.find(ch) != string::npos) return ch;
+        cout << "Invalid input. Choose one of [" << valid << "].\n";
+    }
 }
 
-// Function to run the Dice Rolling Game
-void playDiceGame() {
-    char choice; // Variable to store user's choice to roll again
-
-    cout << "\n--- Welcome to the Dice Rolling Game! ---\n";
-
-    do {
-        int dieRoll = rollDice(); // Roll the die
-        cout << "\nYou rolled a: " << dieRoll << endl; // Display result
-
-        cout << "Roll again? (y/n): "; // Ask to roll again
-        cin >> choice;
-
-        // Clear the input buffer to prevent issues with future inputs
-        cin.ignore(10000, '\n');
-
-    } while (choice == 'y' || choice == 'Y'); // Continue if user enters 'y' or 'Y'
-
-    cout << "Thanks for playing the Dice Game!\n";
+int getValidatedInt(const string& prompt, int minVal, int maxVal) {
+    int x;
+    while (true) {
+        cout << prompt;
+        cin >> x;
+        if (cin.fail() || x < minVal || x > maxVal) {
+            cout << "Please enter a number between " << minVal
+                << " and " << maxVal << ".\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return x;
+        }
+    }
 }
 
-// --- Hangman Game Functions ---
+// === Craps ===
 
-// Function to display the Hangman gallows based on incorrect guesses
-void displayHangmanGallows(int incorrectGuesses) {
-    cout << "  +---+\n";
-    cout << "  |   |\n";
-    cout << "  " << (incorrectGuesses > 0 ? "O" : " ") << "   |\n";
-    cout << " " << (incorrectGuesses > 2 ? "/" : " ") << (incorrectGuesses > 1 ? "|" : " ") << (incorrectGuesses > 3 ? "\\" : " ") << "  |\n";
-    cout << " " << (incorrectGuesses > 4 ? "/" : " ") << " " << (incorrectGuesses > 5 ? "\\" : " ") << "  |\n";
-    cout << "      |\n";
-    cout << "=========\n";
+static int rollTwoDice() {
+    uniform_int_distribution<int> dist(1, 6);
+    return dist(rng) + dist(rng);
 }
 
-// Function to run the Hangman Game
-void playHangmanGame() {
-    // List of words for the game
-    vector<string> words = {
-        "programming", "computer", "keyboard", "monitor", "algorithm",
-        "developer", "language", "hardware", "software", "internet",
-        "blackjack", "hangman", "dice", "cplusplus", "console"
-    };
+void playCraps(double& playerBalance) {
+    cout << "\n--- Craps ---\n";
+    if (playerBalance <= 0.0) {
+        playerBalance = 50.0;
+        cout << "Starting fresh with $50.00\n";
+    }
 
-    // Choose a random word from the list
-    string secretWord = words[rand() % words.size()];
-    string guessedWord(secretWord.length(), '_'); // Initialize with underscores
-    string guessedLetters = ""; // Stores letters already guessed
-    int incorrectGuesses = 0; // Counter for incorrect guesses
-    const int maxIncorrectGuesses = 6; // Maximum allowed incorrect guesses
 
-    cout << "\n--- Welcome to Hangman! ---\n";
-    cout << "Try to guess the word.\n";
+    while (playerBalance > 0.0) {
+        cout << fixed << setprecision(2);
+        
+        double bet = getValidatedInt(
+            "You have $" + to_string((int)playerBalance)
+            + ". Enter bet [$1-$" + to_string((int)playerBalance) + "]: ",
+            1, static_cast<int>(playerBalance));
+        cout << "Betting $" << bet << "\n";
 
-    // Game loop
-    while (incorrectGuesses < maxIncorrectGuesses && guessedWord != secretWord) {
-        displayHangmanGallows(incorrectGuesses); // Display gallows state
-        cout << "\nWord: " << guessedWord << endl;
-        cout << "Guessed letters: " << guessedLetters << endl;
-        cout << "Incorrect guesses remaining: " << (maxIncorrectGuesses - incorrectGuesses) << endl;
-        cout << "Enter a letter: ";
 
-        char guess;
-        cin >> guess;
-        // Convert guess to lowercase for case-insensitivity
-        guess = static_cast<char>(tolower(static_cast<unsigned char>(guess)));
+        int roll = rollTwoDice();
+        cout << "Rolled a " << roll << "\n";
+        bool roundOver = false;
+        int point = 0;
 
-        // Clear the input buffer
-        cin.ignore(10000, '\n');
+        if (roll == 7 || roll == 11) {
+            cout << "You win!\n";
+            playerBalance += bet;
+            roundOver = true;
+        }
+        else if (roll == 2 || roll == 3 || roll == 12) {
+            cout << "Craps – you lose!\n";
+            playerBalance -= bet;
+            roundOver = true;
+        }
+        else {
+            point = roll;
+            cout << "Point is " << point << ". Continue rolling...\n";
+        }
 
-        // Check if letter has already been guessed
-        if (guessedLetters.find(guess) != string::npos) {
-            cout << "You already guessed that letter. Try again.\n";
+        while (!roundOver) {
+            roll = rollTwoDice();
+            cout << "Rolled a " << roll << "\n";
+            if (roll == point) {
+                cout << "Hit the point – you win!\n";
+                playerBalance += bet;
+                roundOver = true;
+            }
+            else if (roll == 7) {
+                cout << "Seven out – you lose!\n";
+                playerBalance -= bet;
+                roundOver = true;
+            }
+        }
+
+        cout << "Balance now: $" << playerBalance << "\n";
+        if (playerBalance <= 0) {
+            cout << "You're broke – game over.\n";
+            break;
+        }
+        if (getValidatedChar("Play again? (Y/N): ", "YN") == 'N') break;
+    }
+
+    cout << "Leaving Craps with $" << playerBalance << "\n";
+}
+
+// === Hangman ===
+
+static void displayGallows(int wrong) {
+    cout << "  +---+\n  |   |\n";
+    cout << "  " << (wrong > 0 ? 'O' : ' ') << "   |\n";
+    cout << " " << (wrong > 2 ? "/" : " ") << (wrong > 1 ? "|" : " ")
+        << (wrong > 3 ? "\\" : " ") << "  |\n";
+    cout << " " << (wrong > 4 ? "/" : " ") << " " << (wrong > 5 ? "\\" : " ") << "  |\n";
+    cout << "      |\n=========\n";
+}
+
+static string toLower(string s) {
+    transform(s.begin(), s.end(), s.begin(),
+        [](unsigned char c) { return tolower(c); });
+    return s;
+}
+
+static vector<string> loadWords(const string& fname) {
+    vector<string> v;
+    ifstream fin(fname);
+    string w;
+    while (fin >> w) v.push_back(toLower(w));
+    return v;
+}
+
+void playHangman() {
+    cout << "\n--- Hangman ---\n";
+    auto words = loadWords("words.txt");
+    if (words.empty()) {
+        words = { "computer","wizard","hangman","puzzle","banana","elephant" };
+        cout << "(Using default word list.)\n";
+    }
+
+    uniform_int_distribution<size_t> dist(0, words.size() - 1);
+    string secret = words[dist(rng)];
+    string guessed(secret.size(), '_');
+    unordered_set<char> used;
+    int wrong = 0, maxWrong = 6;
+
+    while (wrong < maxWrong && guessed != secret) {
+        displayGallows(wrong);
+        cout << "Word: " << guessed << "\nWrong guesses left: "
+            << (maxWrong - wrong) << "\nUsed: ";
+        for (char c : used) cout << c << ' ';
+        cout << "\nGuess a letter: ";
+
+        char g;
+        cin >> g;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        g = tolower(static_cast<unsigned char>(g));
+        if (!isalpha(g) || used.count(g)) {
+            cout << "Invalid or repeated guess.\n";
             continue;
         }
 
-        guessedLetters += guess; // Add the guessed letter to the list
+        used.insert(g);
+        int found = 0;
+        for (size_t i = 0; i < secret.size(); ++i) {
+            if (secret[i] == g) { guessed[i] = g; ++found; }
+        }
+        if (found) cout << "Good guess! '" << g << "' appears " << found << " time(s).\n";
+        else { cout << "Wrong guess.\n"; ++wrong; }
+    }
 
-        bool found = false;
-        // Check if the guessed letter is in the secret word
-        for (size_t i = 0; i < secretWord.length(); ++i) {
-            if (static_cast<char>(tolower(static_cast<unsigned char>(secretWord[i]))) == guess) {
-                guessedWord[i] = secretWord[i]; // Reveal the letter
-                found = true;
+    displayGallows(wrong);
+    if (guessed == secret)
+        cout << "Congrats! Word was '" << secret << "'.\n";
+    else
+        cout << "Out of guesses! Word was '" << secret << "'.\n";
+}
+
+// === Blackjack ===
+
+struct Card { string rank; int value; };
+
+static vector<Card> makeShuffledDeck() {
+    vector<Card> d;
+    static const vector<string> ranks = {
+        "2","3","4","5","6","7","8","9","10","J","Q","K","A"
+    };
+    static const vector<int> vals = {
+        2,3,4,5,6,7,8,9,10,10,10,10,11
+    };
+    for (int i = 0; i < 4; ++i)
+        for (size_t j = 0; j < ranks.size(); ++j)
+            d.push_back({ ranks[j], vals[j] });
+    shuffle(d.begin(), d.end(), rng);
+    return d;
+}
+
+static int handValue(const vector<Card>& h) {
+    int sum = 0, aces = 0;
+    for (auto& c : h) {
+        sum += c.value;
+        if (c.rank == "A") ++aces;
+    }
+    while (sum > 21 && aces > 0) { sum -= 10; --aces; }
+    return sum;
+}
+
+static void printHand(const string& owner, const vector<Card>& h, bool hide = false) {
+    cout << owner << ": ";
+    for (size_t i = 0; i < h.size(); ++i) {
+        if (hide && i == 0) cout << "[hidden] ";
+        else cout << h[i].rank << ' ';
+    }
+    if (!hide) cout << "(Total: " << handValue(h) << ")";
+    cout << "\n";
+}
+
+void playBlackjack() {
+    cout << "\n--- Blackjack ---\n";
+    char again;
+    do {
+        auto deck = makeShuffledDeck();
+        vector<Card> player, dealer;
+
+        player.push_back(deck.back()); deck.pop_back();
+        dealer.push_back(deck.back()); deck.pop_back();
+        player.push_back(deck.back()); deck.pop_back();
+        dealer.push_back(deck.back()); deck.pop_back();
+
+        printHand("Dealer", dealer, true);
+        printHand("Player", player);
+
+        while (handValue(player) < 21) {
+            char ch = getValidatedChar("(H)it or (S)tand? ", "HS");
+            if (ch == 'H') {
+                player.push_back(deck.back()); deck.pop_back();
+                printHand("Player", player);
             }
+            else break;
         }
 
-        if (!found) {
-            cout << "Incorrect guess!\n";
-            incorrectGuesses++; // Increment incorrect guess count
+        if (handValue(player) > 21) {
+            cout << "Bust! You lose.\n";
         }
         else {
-            cout << "Good guess!\n";
+            printHand("Dealer", dealer);
+            while (handValue(dealer) < 17) {
+                dealer.push_back(deck.back()); deck.pop_back();
+                printHand("Dealer", dealer);
+            }
+            int pv = handValue(player), dv = handValue(dealer);
+            if (dv > 21) cout << "Dealer busts! You win!\n";
+            else if (pv > dv) cout << "You win!\n";
+            else if (pv < dv) cout << "Dealer wins.\n";
+            else cout << "Push (tie).\n";
         }
-        cout << endl;
-    }
 
-    // Game end conditions
-    displayHangmanGallows(incorrectGuesses); // Final gallows display
-    if (guessedWord == secretWord) {
-        cout << "Congratulations! You guessed the word: " << secretWord << endl;
-    }
-    else {
-        cout << "You ran out of guesses! The word was: " << secretWord << endl;
-        cout << "Better luck next time!\n";
-    }
-
-    cout << "Thanks for playing Hangman!\n";
+        again = getValidatedChar("Play again? (Y/N): ", "YN");
+        cout << "\n";
+    } while (again == 'Y');
 }
-
-// --- Blackjack Game Functions ---
-
-// Card structure
-struct Card {
-    string rank; // e.g., "2", "King", "Ace"
-    int value;        // Numeric value (e.g., 2, 10, 11 for Ace initially)
-};
-
-// Function to create a standard deck of 52 cards
-vector<Card> createBlackjackDeck() {
-    vector<Card> deck;
-    vector<string> ranks = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace" };
-    vector<int> values = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11 };
-
-    // Create 4 suits of each card
-    for (int i = 0; i < 4; ++i) {
-        for (size_t j = 0; j < ranks.size(); ++j) {
-            deck.push_back({ ranks[j], values[j] });
-        }
-    }
-    return deck;
-}
-
-// Function to shuffle the deck (using random_shuffle)
-void shuffleBlackjackDeck(vector<Card>& deck) {
-    random_shuffle(deck.begin(), deck.end());
-}
-
-// Function to calculate the total value of a hand, handling Aces (1 or 11)
-int calculateBlackjackHandValue(const vector<Card>& hand) {
-    int value = 0;
-    int aceCount = 0;
-
-    for (const auto& card : hand) {
-        value += card.value;
-        if (card.rank == "Ace") {
-            aceCount++;
-        }
-    }
-
-    // Adjust for Aces if hand value exceeds 21
-    while (value > 21 && aceCount > 0) {
-        value -= 10; // Change Ace from 11 to 1
-        aceCount--;
-    }
-    return value;
-}
-
-// Function to display a hand
-void displayBlackjackHand(const string& owner, const vector<Card>& hand, bool hideDealerCard = false) {
-    cout << owner << "'s hand: ";
-    for (size_t i = 0; i < hand.size(); ++i) {
-        if (hideDealerCard && i == 0) {
-            cout << "[Hidden Card] ";
-        }
-        else {
-            cout << hand[i].rank << " ";
-        }
-    }
-    if (!hideDealerCard) {
-        cout << "(Value: " << calculateBlackjackHandValue(hand) << ")";
-    }
-    cout << endl;
-}
-
-// Function to run the Blackjack Game
-void playBlackjackGame() {
-    char playAgain;
-    cout << "\n--- Welcome to Blackjack! ---\n";
-
-    do {
-        vector<Card> deck = createBlackjackDeck();
-        shuffleBlackjackDeck(deck);
-
-        vector<Card> playerHand;
-        vector<Card> dealerHand;
-
-        int deckIndex = 0; // To keep track of current card in the deck
-
-        // Deal initial cards
-        playerHand.push_back(deck[deckIndex++]);
-        dealerHand.push_back(deck[deckIndex++]); // Dealer's first card (hidden)
-        playerHand.push_back(deck[deckIndex++]);
-        dealerHand.push_back(deck[deckIndex++]);
-
-        displayBlackjackHand("Player", playerHand);
-        displayBlackjackHand("Dealer", dealerHand, true); // Hide dealer's first card
-
-        // Player's turn
-        char choice;
-        while (true) {
-            int playerValue = calculateBlackjackHandValue(playerHand);
-            if (playerValue > 21) {
-                cout << "Player busts!\n";
-                break;
-            }
-            if (playerValue == 21) {
-                cout << "Player has Blackjack!\n";
-                break;
-            }
-
-            cout << "Do you want to (H)it or (S)tand? ";
-            cin >> choice;
-            choice = static_cast<char>(tolower(static_cast<unsigned char>(choice)));
-
-            // Clear the input buffer
-            cin.ignore(10000, '\n');
-
-            if (choice == 'h') {
-                playerHand.push_back(deck[deckIndex++]);
-                displayBlackjackHand("Player", playerHand);
-            }
-            else if (choice == 's') {
-                cout << "Player stands.\n";
-                break;
-            }
-            else {
-                cout << "Invalid choice. Please enter 'H' or 'S'.\n";
-            }
-        }
-
-        // Dealer's turn (only if player hasn't busted)
-        int playerFinalValue = calculateBlackjackHandValue(playerHand);
-        if (playerFinalValue <= 21) {
-            cout << "\nDealer's turn:\n";
-            displayBlackjackHand("Dealer", dealerHand); // Reveal dealer's hidden card
-
-            while (calculateBlackjackHandValue(dealerHand) < 17) {
-                cout << "Dealer hits.\n";
-                dealerHand.push_back(deck[deckIndex++]);
-                displayBlackjackHand("Dealer", dealerHand);
-            }
-            int dealerValue = calculateBlackjackHandValue(dealerHand);
-            if (dealerValue > 21) {
-                cout << "Dealer busts! Player wins!\n";
-            }
-            else if (dealerValue > playerFinalValue) {
-                cout << "Dealer wins!\n";
-            }
-            else if (playerFinalValue > dealerValue) {
-                cout << "Player wins!\n";
-            }
-            else {
-                cout << "It's a push (tie)!\n";
-            }
-        }
-
-        cout << "Play again? (y/n): ";
-        cin >> playAgain;
-        playAgain = static_cast<char>(tolower(static_cast<unsigned char>(playAgain)));
-        cin.ignore(10000, '\n'); // Clear input buffer
-        cout << endl;
-
-    } while (playAgain == 'y');
-
-    cout << "Thanks for playing Blackjack!\n";
-}
-
-// --- Main Program ---
-
-int main() {
-    // Seed the random number generator once at the beginning of the program
-    srand(static_cast<unsigned int>(time(0)));
-
-    int choice;
-
-    do {
-        cout << "\n--- Welcome to the C++ Game Collection! ---\n";
-        cout << "1. Play Dice Rolling Game\n";
-        cout << "2. Play Hangman Game\n";
-        cout << "3. Play Blackjack Game\n";
-        cout << "4. Exit\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
-
-        // Clear the input buffer
-        cin.ignore(10000, '\n');
-
-        switch (choice) {
-        case 1:
-            playDiceGame();
-            break;
-        case 2:
-            playHangmanGame();
-            break;
-        case 3:
-            playBlackjackGame();
-            break;
-        case 4:
-            cout << "Exiting the game collection. Goodbye!\n";
-            break;
-        default:
-            cout << "Invalid choice. Please enter a number between 1 and 4.\n";
-            break;
-        }
-        cout << endl; // Add a newline for spacing after each game
-    } while (choice != 4); // Continue until the user chooses to exit
-
-    return 0; // Indicate successful program execution
-}
-
