@@ -1,0 +1,108 @@
+﻿_____________________________
+Multi-Game Program Pseudocode
+_____________________________
+
+
+
+Main Program (main)
+-------------------
+- Initialize playerBalance to 50.0
+- Loop until user chooses to quit:
+  - Show menu:
+    1. Craps
+    2. Hangman
+    3. Blackjack
+    Q. Quit
+  - Read user's choice and convert to uppercase
+  - Switch (choice):
+    - '1': playCraps(playerBalance)
+    - '2': playHangman()
+    - '3': playBlackjack()
+    - 'Q': exit message
+    - default: invalid input message
+
+--------------------------------
+Craps Game (playCraps)
+--------------------------------
+- If playerBalance <= 0, reset to $50
+- Loop while playerBalance > 0:
+  - Ask for a bet between $1 and playerBalance
+  - Roll two dice:
+    - If 7 or 11 → win, add bet to balance
+    - If 2, 3, 12 → lose, subtract bet
+    - Else → set point and continue rolling
+  - While not round over:
+    - Roll dice again
+    - If roll == point → win
+    - If roll == 7 → lose
+  - Show updated balance
+  - If balance <= 0 → print broke message, break
+  - Ask to play again (Y/N), exit if 'N'
+
+Helper: rollTwoDice
+- Roll two 6-sided dice and return the sum
+
+--------------------------------
+Hangman Game (playHangman)
+--------------------------------
+- Load words from "words.txt", or use default list
+- Choose a random secret word
+- Initialize guessed string with underscores
+- Initialize wrong = 0, maxWrong = 6, used letters = empty set
+- Loop while wrong < maxWrong and guessed != secret:
+  - Display gallows
+  - Show guessed string and used letters
+  - Prompt user for a letter
+  - If invalid or already guessed → message and continue
+  - If guess in secret → update guessed
+  - Else → increment wrong
+- Show final gallows and win/lose message
+
+Helpers:
+- displayGallows: Draw hangman based on wrong guesses
+- toLower: Convert string to lowercase
+- loadWords: Load word list from file
+
+--------------------------------
+Blackjack Game (playBlackjack)
+--------------------------------
+- Loop until player chooses not to play:
+  - Create and shuffle deck
+  - Deal 2 cards to player and dealer
+  - Show player hand, hide dealer's first card
+  - Player turn:
+    - While total < 21:
+      - Ask for Hit or Stand
+      - If Hit → deal card and update hand
+      - If Stand → break
+  - If player busted → lose
+  - Else:
+    - Reveal dealer hand
+    - While dealer total < 17:
+      - Dealer hits and adds card
+    - Determine result: win, lose, or push
+  - Ask to play again (Y/N)
+
+Helpers:
+- makeShuffledDeck: Creates shuffled 52-card deck
+- handValue: Calculates Blackjack hand value (handles Aces)
+- printHand: Display hand, optionally hiding dealer card
+
+--------------------------------
+Shared Helper Functions
+--------------------------------
+getValidatedChar(prompt, valid)
+- Prompt until input is a valid character
+- Convert input to uppercase
+
+getValidatedInt(prompt, minVal, maxVal)
+- Prompt until input is an integer in range
+- Clear input buffer after invalid input
+
+--------------------------------
+Files Used
+--------------------------------
+- Games.h      : Game declarations and struct Card
+- Games.cpp    : Game logic and helper functions
+- main.cpp     : Main function and menu loop
+- words.txt    : Word list for Hangman

@@ -28,7 +28,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Text.txt">
+    <Text Include="words.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="pseudocode.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>
