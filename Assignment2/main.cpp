@@ -18,7 +18,6 @@ int main() {
     // played within the same program session. This demonstrates variable scope.
     double playerBalance = 50.0;
     char choice; // Variable to store the user's menu selection.
-
     // This do-while loop creates the main program menu.
     // It ensures the menu is displayed at least once and continues to loop
     // until the user explicitly chooses to quit.
@@ -71,7 +70,6 @@ int main() {
             // No break needed here as it's the last case.
         }
     } while (choice != 'Q'); // The loop continues as long as the user has not chosen to 'Q'uit.
-
     // Return 0 indicates that the program executed successfully.
     return 0;
 }

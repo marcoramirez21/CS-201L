@@ -153,7 +153,7 @@ void playCraps(double& playerBalance) { // playerBalance is passed by reference,
                 roundOver = true;
             }
             else if (roll == 7) {
-                cout << "Seven out – you lose!\n";
+                cout << "Seven out - you lose!\n";
                 playerBalance -= bet; // Subtract bet from balance
                 roundOver = true;
             }
@@ -163,7 +163,7 @@ void playCraps(double& playerBalance) { // playerBalance is passed by reference,
 
         // Check if player is broke after the round
         if (playerBalance <= 0) {
-            cout << "You're broke – game over.\n";
+            cout << "You're broke - game over.\n";
             break; // Exit the main Craps game loop
         }
 
@@ -298,11 +298,11 @@ void playHangman() {
 
 // === Blackjack Game ===
 
-// Represents a playing card with rank (e.g., "A", "K", "2") and numerical value.
+/* Represents a playing card with rank(e.g., "A", "K", "2") and numerical value.
 struct Card {
     string rank;
     int value;
-};
+};*/
 
 // Create a standard 52-card deck and shuffle it.
 // This function is called at the beginning of each Blackjack game round.
@@ -348,7 +348,7 @@ static int handValue(const vector<Card>& h) { // Hand 'h' is passed by const ref
 }
 
 // Print the cards in a hand; optionally hide dealer's first card.
-static void printHand(const string& owner, const vector<Card>& h, bool hide = false) {
+static void printHand(const string& owner, const vector<Card>& h, bool hide) {
     cout << owner << ": "; // Print the owner's name
     for (size_t i = 0; i < h.size(); ++i) { // Iterate through the cards in the hand
         if (hide && i == 0) cout << "[hidden] "; // If hiding and it's the first card, print "[hidden]"

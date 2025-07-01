@@ -66,7 +66,6 @@ static int rollTwoDice(); // Declared static as it's a helper for playCraps, typ
  */
 void playCraps(double& playerBalance);
 
-
 // === Hangman Game Declarations ===
 
 /**
@@ -107,7 +106,6 @@ static std::vector<std::string> loadWords(const std::string& fname); // Declared
  * Uses a default word list if the file cannot be loaded.
  */
 void playHangman();
-
 
 // === Blackjack Game Declarations ===
 
