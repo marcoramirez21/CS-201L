@@ -126,7 +126,13 @@
     <ClCompile Include="Program4_Calculator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="pseudocode.txt" />
+    <Text Include="header.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pseudocode.md">
+      <SubType>
+      </SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

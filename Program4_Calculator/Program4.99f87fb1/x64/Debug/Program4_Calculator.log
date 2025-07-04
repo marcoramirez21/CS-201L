@@ -1,6 +1,5 @@
 ﻿  Program4_Calculator.cpp
-C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\Program4_Calculator\Program4_Calculator.cpp(89,9): warning C4101: 'choice': unreferenced local variable
-C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\Program4_Calculator\Program4_Calculator.cpp(346,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\Program4_Calculator\Program4_Calculator.cpp(366,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\Program4_Calculator\Program4_Calculator.cpp(385,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\Program4_Calculator\Program4_Calculator.cpp(495,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\Program4_Calculator\Program4_Calculator.cpp(514,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\Program4_Calculator\Program4_Calculator.cpp(532,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Program4_Calculator.vcxproj -> C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\Program4_Calculator\x64\Debug\Program4_Calculator.exe

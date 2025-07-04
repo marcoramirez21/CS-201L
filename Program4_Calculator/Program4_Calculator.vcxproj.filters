@@ -20,8 +20,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="pseudocode.txt">
+    <Text Include="header.h">
       <Filter>Source Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pseudocode.md" />
   </ItemGroup>
 </Project>
