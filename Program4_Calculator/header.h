@@ -1,6 +1,4 @@
 // Program4_Calculator.cpp 
-//
-
 #ifndef CALCULATOR_H // Include guard to prevent multiple inclusions of this header file.
 #define CALCULATOR_H // Defines the macro for the include guard.
 
