@@ -1,5 +1,0 @@
-﻿  GradingApp_pointers.cpp
-C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\GradingApp_pointers\GradingApp_pointers.cpp(33,22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\GradingApp_pointers\GradingApp_pointers.cpp(154,41): warning C4101: 'oor': unreferenced local variable
-C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\GradingApp_pointers\GradingApp_pointers.cpp(159,45): warning C4101: 'ia': unreferenced local variable
-  GradingApp_pointers.vcxproj -> C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\GradingApp_pointers\x64\Debug\GradingApp_pointers.exe
