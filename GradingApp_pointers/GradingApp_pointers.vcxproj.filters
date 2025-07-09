@@ -25,9 +25,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PseudocodeGradingApp.md" />
+    <Text Include="student.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="student.txt" />
+    <None Include="PseudocodeGradingApp.md" />
   </ItemGroup>
 </Project>
