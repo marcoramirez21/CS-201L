@@ -3,11 +3,11 @@
 
 // 1. Define Data Structure:
 STRUCT studentInfo
-    INT studentID
-    STRING answers
-    INT score
-    FLOAT percent
-    CHAR grade
+INT studentID
+STRING answers
+INT score
+FLOAT percent
+CHAR grade
 END STRUCT
 
 // 2. Function: isNumeric(STRING s) -> BOOL
