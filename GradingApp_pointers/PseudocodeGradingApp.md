@@ -1,4 +1,4 @@
-﻿// Program 5 – Grading Using Pointers
+﻿/ Program 5 – Grading Using Pointers
 // Objective: Read student quiz data, calculate scores/grades, handle errors, output reports.
 
 // 1. Define Data Structure:
