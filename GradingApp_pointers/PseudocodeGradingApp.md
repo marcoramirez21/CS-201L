@@ -1,13 +1,14 @@
-﻿// Program 5 – Grading Using Pointers
+﻿```text
+// Program 5 – Grading Using Pointers
 // Objective: Read student quiz data, calculate scores/grades, handle errors, output reports.
 
 // 1. Define Data Structure:
 STRUCT studentInfo
-INT studentID
-STRING answers
-INT score
-FLOAT percent
-CHAR grade
+    INT studentID
+    STRING answers
+    INT score
+    FLOAT percent
+    CHAR grade
 END STRUCT
 
 // 2. Function: isNumeric(STRING s) -> BOOL
