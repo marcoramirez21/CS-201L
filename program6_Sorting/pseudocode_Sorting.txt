@@ -1,0 +1,118 @@
+---
+Sorting Algorithm Pseudocode
+---
+
+Function generateRandomArray(arr, size):
+    Initialize random number generator
+    For i from 0 to size - 1:
+        arr[i] = random integer between 1 and size * 2
+
+---
+
+Function copyArray(source, destination):
+    Resize destination to match source size
+    For i from 0 to source.size - 1:
+        destination[i] = source[i]
+
+---
+
+Function printArray(arr):
+    For each element x in arr:
+        Print x followed by a space
+    Print newline
+
+---
+
+Function selectionSort(arr, n):
+    For i from 0 to n-2:
+        minIndex = i
+        For j from i+1 to n-1:
+            If arr[j] < arr[minIndex]:
+                minIndex = j
+        Swap arr[minIndex] and arr[i]
+
+---
+
+Function insertionSort(arr, n):
+    For i from 1 to n-1:
+        key = arr[i]
+        j = i - 1
+        While j >= 0 AND arr[j] > key:
+            arr[j+1] = arr[j]
+            j = j - 1
+        arr[j+1] = key
+
+---
+
+Function merge(arr, l, m, r):
+    n1 = m - l + 1
+    n2 = r - m
+    Create temp arrays L[n1], R[n2]
+
+    Copy data to temp arrays L[] and R[]
+    For i from 0 to n1-1:
+        L[i] = arr[l + i]
+    For j from 0 to n2-1:
+        R[j] = arr[m + 1 + j]
+
+    i = 0, j = 0, k = l (initial index of merged subarray)
+
+    While i < n1 AND j < n2:
+        If L[i] <= R[j]:
+            arr[k] = L[i]
+            i = i + 1
+        Else:
+            arr[k] = R[j]
+            j = j + 1
+        k = k + 1
+
+    While i < n1:
+        arr[k] = L[i]
+        i = i + 1
+        k = k + 1
+
+    While j < n2:
+        arr[k] = R[j]
+        j = j + 1
+        k = k + 1
+
+---
+
+Function mergeSort(arr, l, r):
+    If l < r:
+        m = (l + r) / 2
+        mergeSort(arr, l, m)
+        mergeSort(arr, m + 1, r)
+        merge(arr, l, m, r)
+
+---
+
+Function partition(arr, low, high):
+    pivot = arr[high]
+    i = (low - 1)
+    For j from low to high - 1:
+        If arr[j] <= pivot:
+            i = i + 1
+            Swap arr[i] and arr[j]
+    Swap arr[i + 1] and arr[high]
+    Return i + 1
+
+---
+
+Function quickSort(arr, low, high):
+    If low < high:
+        pi = partition(arr, low, high)
+        quickSort(arr, low, pi - 1)
+        quickSort(arr, pi + 1, high)
+
+---
+
+Function bubbleSort(arr, n):
+    For i from 0 to n-2:
+        swapped = false
+        For j from 0 to n-i-2:
+            If arr[j] > arr[j+1]:
+                Swap arr[j] and arr[j+1]
+                swapped = true
+        If swapped is false:
+            Break (array is sorted)
