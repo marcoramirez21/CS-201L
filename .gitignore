@@ -49,5 +49,4 @@ ipch/
 *~
 # MacOS specific files
 .DS_Store
-# Custom ignored files for this project (e.g., pseudocode.txt)
-pseudocode.txt
+
