@@ -1,5 +1,53 @@
-.vs/
+# Visual Studio Temporary Files and Build Artifacts
+
+## Project Build Outputs
+# Object files
+*.obj
+# Executables and Libraries
+*.exe
+*.dll
+*.lib
+*.exp
+# Program Database files (for debugging)
+*.pdb
+*.ilk
+# Other build-related files
+*.tlog
+*.log
+*.aps
+*.bsc
+*.map
+*.sbr
+*.res
+*.ipch
+*.pch # Precompiled headers
+
+## Visual Studio Solution/Project User Files
 *.suo
 *.user
 *.userosscache
-#*.sln.docstates
+*.opendb
+*.opensdf
+*.sdf
+*.vc.db
+*.vshost.* # Visual Studio hosting process files
+*.ide # Visual Studio IDE files (e.g., .intellisense)
+
+## Visual Studio Generated Folders
+# Solution user-specific settings
+.vs/
+# Default build output directories
+Debug/
+Release/
+x64/Debug/
+x64/Release/
+# Intermediate project files
+ipch/
+
+## Other Common Ignores
+# Backup files
+*~
+# MacOS specific files
+.DS_Store
+# Custom ignored files for this project (e.g., pseudocode.txt)
+pseudocode.txt
