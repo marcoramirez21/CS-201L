@@ -1,0 +1,8 @@
+﻿  main.cpp
+C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\program6_Sorting\main.cpp(55,49): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  program6_Sorting.cpp
+C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\program6_Sorting\program6_Sorting.cpp(38,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\program6_Sorting\program6_Sorting.cpp(53,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\program6_Sorting\program6_Sorting.cpp(140,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  program6_Sorting.vcxproj -> C:\Users\marcc\source\repos\cpp_Coursework_2025_Summer\program6_Sorting\x64\Debug\program6_Sorting.exe
